@@ -7,7 +7,11 @@
       <br><br>
       <ul class="list-group">
         <li
-          class="list-group-item">
+          class="list-group-item"
+          [ngClass]="{odd: number % 2 !== 0}"
+          [ngStyle]="{backgroundColor: number % 2 == 0 ? 'yellow' : 'transparent'}"
+          *ngFor="let number of numbers">
+          {{ number }}
         </li>
       </ul>
       <ng-template [ngIf]="onlyOdd">
@@ -16,3 +20,4 @@
     </div>
   </div>
 </div>
+s
