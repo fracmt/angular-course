@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable } from "@angular/core";
 
 import { LoggingService } from "./logging.service";
 
@@ -18,8 +18,9 @@ export class AccountsService {
       status: "unknown",
     },
   ];
+  statusUpdated = new EventEmitter<string>();
 
-  constructor(private loggingService: LoggingService) {};
+  constructor(private loggingService: LoggingService) {}
 
   addAccount(name: string, status: string) {
     this.accounts.push({ name: name, status: status });

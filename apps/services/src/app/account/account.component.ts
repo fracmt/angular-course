@@ -1,3 +1,4 @@
+import { i18nMetaToJSDoc } from "@angular/compiler/src/render3/view/i18n/meta";
 import { Component, Input } from "@angular/core";
 
 import { AccountsService } from "../accounts.service";
@@ -19,5 +20,6 @@ export class AccountComponent {
 
   onSetTo(status: string) {
     this.accountsService.updateStatus(this.id, status);
+    this.accountsService.statusUpdated.emit(status);
   }
 }
