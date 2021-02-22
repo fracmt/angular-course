@@ -3,6 +3,7 @@ import { filter } from "rxjs-compat/operator/filter";
 
 @Pipe({
   name: "filter",
+  pure: false
 })
 export class FilterPipe implements PipeTransform {
   transform(value: any, filterString: string, propName: string): any {
