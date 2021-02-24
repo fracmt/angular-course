@@ -52,7 +52,15 @@
                   "maximumError": "5mb"
                 }
               ]
-            }
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
+            },
           }
         },
         "serve": {
@@ -63,6 +71,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ng-complete-guide-update:build:production"
+            },
+            "dev": {
+              "browserTarget": "ng-complete-guide-update:build:dev"
             }
           }
         },
