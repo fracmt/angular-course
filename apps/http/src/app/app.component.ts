@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
-import { map } from "rxjs/operators";
 import { Post } from "./post.model";
+import { PostsService } from "./posts.service";
 
 @Component({
   selector: "app-root",
@@ -11,11 +10,9 @@ import { Post } from "./post.model";
 })
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
-  apiUrl = "";
+  isFetching = false;
 
-  constructor(private http: HttpClient) {
-    this.apiUrl = environment.apiUrl;
-  }
+  constructor(private http: HttpClient, private postsService: PostsService) {}
 
   ngOnInit() {
     this.fetchPosts();
@@ -23,11 +20,7 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: Post) {
     // Send Http request
-    this.http
-      .post<{ name: string }>(this.apiUrl + "posts.json", postData)
-      .subscribe((responseData) => {
-        console.log(responseData);
-      });
+    this.postsService.createStorePost(postData.title, postData.content);
   }
 
   onFetchPosts() {
@@ -40,22 +33,10 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
-    this.http
-      .get<{ [key: string]: Post }>(this.apiUrl + "posts.json")
-      .pipe(
-        //map((responseData: { [key: string]: Post }) => {
-        map((responseData) => {
-          const postsArray: Post[] = [];
-          for (const key in responseData) {
-            if (responseData.hasOwnProperty(key)) {
-              postsArray.push({ ...responseData[key], id: key });
-            }
-          }
-          return postsArray;
-        })
-      )
-      .subscribe((posts) => {
-        this.loadedPosts = posts;
-      });
+    this.isFetching = true;
+    this.postsService.fetchPost().subscribe((posts) => {
+      this.isFetching = false;
+      this.loadedPosts = posts;
+    });
   }
 }
