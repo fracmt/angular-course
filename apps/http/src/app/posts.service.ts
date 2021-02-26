@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Subject, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
@@ -19,16 +19,21 @@ export class PostsService {
     const postData: Post = { title: title, content: content };
     this.http
       .post<{ name: string }>(this.apiUrl + "posts.json", postData)
-      .subscribe((responseData) => {
-        console.log(responseData);
-      }, error => {
-        this.error = error.message;
-      });
+      .subscribe(
+        (responseData) => {
+          console.log(responseData);
+        },
+        (error) => {
+          this.error = error.message;
+        }
+      );
   }
 
   fetchPost() {
     return this.http
-      .get<{ [key: string]: Post }>(this.apiUrl + "posts.json")
+      .get<{ [key: string]: Post }>(this.apiUrl + "posts.json", {
+        headers: new HttpHeaders({ "Custom-Header": "Hello" }),
+      })
       .pipe(
         //map((responseData: { [key: string]: Post }) => {
         map((responseData) => {
@@ -40,7 +45,7 @@ export class PostsService {
           }
           return postsArray;
         }),
-        catchError(errorRes => {
+        catchError((errorRes) => {
           // Send to analytics server
           return throwError(errorRes);
         })
