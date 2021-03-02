@@ -1,7 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpEventType,
+  HttpHeaders,
+  HttpParams,
+} from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Subject, throwError } from "rxjs";
-import { map, catchError } from "rxjs/operators";
+import { map, catchError, tap } from "rxjs/operators";
 
 import { environment } from "../environments/environment";
 import { Post } from "./post.model";
@@ -18,7 +23,9 @@ export class PostsService {
   createStorePost(title: string, content: string) {
     const postData: Post = { title: title, content: content };
     this.http
-      .post<{ name: string }>(this.apiUrl + "posts.json", postData)
+      .post<{ name: string }>(this.apiUrl + "posts.json", postData, {
+        observe: "response",
+      })
       .subscribe(
         (responseData) => {
           console.log(responseData);
@@ -31,11 +38,11 @@ export class PostsService {
 
   fetchPost() {
     let searchParams = new HttpParams();
-    searchParams = searchParams.append('print', 'pretty');
+    searchParams = searchParams.append("print", "pretty");
     return this.http
       .get<{ [key: string]: Post }>(this.apiUrl + "posts.json", {
         headers: new HttpHeaders({ "Custom-Header": "Hello" }),
-        params: searchParams
+        params: searchParams,
         //params: new HttpParams().set('print', 'pretty')
       })
       .pipe(
@@ -57,6 +64,20 @@ export class PostsService {
   }
 
   deletePosts() {
-    return this.http.delete(this.apiUrl + "posts.json");
+    return this.http
+      .delete(this.apiUrl + "posts.json", {
+        observe: "events",
+      })
+      .pipe(
+        tap((event) => {
+          console.log(event);
+          if (event.type === HttpEventType.Sent) {
+            // ...
+          }
+          if (event.type === HttpEventType.Response) {
+            console.log(event.body);
+          }
+        })
+      );
   }
 }
