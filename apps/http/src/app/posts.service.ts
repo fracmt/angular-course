@@ -25,6 +25,7 @@ export class PostsService {
     this.http
       .post<{ name: string }>(this.apiUrl + "posts.json", postData, {
         observe: "response",
+        responseType: "json",
       })
       .subscribe(
         (responseData) => {
@@ -44,6 +45,7 @@ export class PostsService {
         headers: new HttpHeaders({ "Custom-Header": "Hello" }),
         params: searchParams,
         //params: new HttpParams().set('print', 'pretty')
+        responseType: "json",
       })
       .pipe(
         //map((responseData: { [key: string]: Post }) => {
