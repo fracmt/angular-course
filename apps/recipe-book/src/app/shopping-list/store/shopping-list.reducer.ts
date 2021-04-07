@@ -1,5 +1,3 @@
-import { Action } from '@ngrx/store';
-
 import { Ingredient } from '../../shared/Ingredient.model';
 
 import * as ShoppingListActions from './shopping-list.actions';
@@ -16,7 +14,7 @@ export function shoppingListReducer(
     case ShoppingListActions.ADD_INGREDIENT:
       return {
         ...state,
-        Ingredients: [...state.ingredients, action.payload],
+        ingredients: [...state.ingredients, action.payload],
       };
     default:
       return state;
