@@ -6,8 +6,4 @@ export class Ingredient {
     this.name = name;
     this.amount = amount;
   }
-
-  public get test() {
-    return this.amount;
-  }
 }
