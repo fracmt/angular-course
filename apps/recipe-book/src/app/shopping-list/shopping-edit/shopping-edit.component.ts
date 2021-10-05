@@ -1,4 +1,3 @@
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -6,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Ingredient } from '../../shared/Ingredient.model';
 
 import * as ShoppingListActions from '../store/shopping-list.actions';
-import * as fromApp from '../store/app.reducer';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-shopping-edit',
