@@ -13,18 +13,17 @@ import { CoreModule } from './core.module';
 import * as fromApp from './store/app.reducer';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    StoreModule.forRoot(fromApp.appReducer),
-    SharedModule,
-    CoreModule,
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [AlertComponent],
+    declarations: [AppComponent, HeaderComponent],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        StoreModule.forRoot(fromApp.appReducer),
+        SharedModule,
+        CoreModule,
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
